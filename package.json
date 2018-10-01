@@ -1,0 +1,10 @@
+{
+  "name": "handolecoin",
+  "version": "1.0.0",
+  "description": "Handolecoin, a cryptocurrency coin made in NodeJS",
+  "main": "src/server.js",
+  "repository": "https://github.com/kimhandole/handolecoin",
+  "author": "Han Dole Kim <kimhandole@gmail.com>",
+  "license": "MIT",
+  "private": false
+}
