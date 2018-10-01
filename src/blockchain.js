@@ -1,7 +1,7 @@
 const CryptoJS = require("crypto-js");
 
 class Block {
-    constructor(index, hash, previousHash, timestamp, data){
+    constructor(index, hash, previousHash, timestamp, data) {
         this.index = index;
         this.hash = hash;
         this.previousHash = previousHash;
@@ -20,6 +20,7 @@ const genesisBlock = new Block(
 
 let blockchain = [genesisBlock];
 
+/* Helper functions of the createNewBlock */
 const getLastBlock = () => blockchain[blockchain.length - 1];
 
 const getTimeStamp = () => new Date().getTime() / 1000;
@@ -27,8 +28,7 @@ const getTimeStamp = () => new Date().getTime() / 1000;
 const createHash = (index, previousHash, timestamp, data) => 
     CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
 
-
-const createNewBlcok = data => {
+const createNewBlock = data => {
     const previousBlock = getLastBlock();
     const newBlockIndex = previousBlock.index + 1;
     const newTimestamp = getTimeStamp();
@@ -47,3 +47,19 @@ const createNewBlcok = data => {
     );
     return newBlock;
 };
+
+const getBlockHash = (block) => createHash(block.index, block.previousHash, block.timestamp, block.data);
+
+const isNewBlockVaild = (candidateBlock, lastestBlock) => {
+    if (lastestBlock.index + 1 !== candidateBlock.index) {
+        console.log("INVALID: the candidate block doesn't have a vaild index");
+        return false;
+    } else if (lastestBlock.hash !== candidateBlock.previousHash) {
+        console.log("INVALID: the previousHash doesn't match the candidateBlock's previousHash");
+        return false;
+    } else if (getBlockHash(candidateBlock) !== candidateBlock.hash) {
+        console.log("INVALID: the hash of this block is not valid");
+        return false;
+    }
+    return true;
+}
